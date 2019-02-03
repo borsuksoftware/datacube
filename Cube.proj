@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MSBuild project to build the cube -->
+<!-- Requires VS2017 version of MSBuild -->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+
+  <PropertyGroup>
+    <TestToolsDir>C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow</TestToolsDir>
+  </PropertyGroup>
+
+  <Target Name="Clean">
+    <MSBuild Projects="Cube.sln" Targets="Clean" />
+  </Target>
+
+  <Target Name="Build">
+    <MSBuild Projects="Cube.sln" Targets="Build" />
+
+    <Message Text="Running unit tests" />
+    <CallTarget Targets="UnitTests" />
+  </Target>
+
+  <Target Name="UnitTests">
+
+    <Exec Command="&quot;$(TestToolsDir)\vstest.console.exe&quot; Build\Cube.Core.Tests.dll" />
+  </Target>
+</Project>
