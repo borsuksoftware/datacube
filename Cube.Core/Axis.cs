@@ -44,5 +44,28 @@ namespace BorsukSoftware.Cube
 		}
 
 		#endregion
+
+		public override bool Equals( object obj )
+		{
+			var otherObj = obj as IAxis;
+			if( otherObj == null )
+				return false;
+
+			if( otherObj.AllowTotals != this.AllowTotals ||
+				otherObj.DataType != this.DataType ||
+				otherObj.Name != this.Name )
+				return false;
+
+			return true;
+		}
+
+		public override int GetHashCode()
+		{
+			int hashCode = this.AllowTotals.GetHashCode() ^
+				this.DataType.GetHashCode() ^
+				this.Name.GetHashCode();
+
+			return hashCode;
+		}
 	}
 }

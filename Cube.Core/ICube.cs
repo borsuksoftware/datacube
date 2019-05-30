@@ -22,6 +22,11 @@ namespace BorsukSoftware.Cube
 		bool TryGetValue( object [] keys, out TValueType cubeValue );
 
 		/// <summary>
+		/// Get the axes for this cube
+		/// </summary>
+		IAxisSet AxisSet { get; }
+
+		/// <summary>
 		/// Gets the error set for this cube
 		/// </summary>
 		/// <value>The error set for this cube</value>
