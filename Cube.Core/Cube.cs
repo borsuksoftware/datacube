@@ -209,8 +209,8 @@ namespace BorsukSoftware.Cube
 			if( keys == null )
 				throw new ArgumentNullException( nameof( keys ) );
 
-			if( keys.Length != this.AxisSet.Count )
-				throw new ArgumentException( string.Format( "Expected {0} keys, got given {1}", this.AxisSet.Count, keys.Length ) );
+			if (keys.Length != this.AxisSet.Count)
+				throw new ArgumentException($"Expected {this.AxisSet.Count} key(s), got given {keys.Length}");
 
 			uint [] mappedKeys = new uint [ keys.Length ];
 			for( int idx = 0 ; idx < mappedKeys.Length ; idx++ )

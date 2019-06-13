@@ -55,7 +55,7 @@ namespace BorsukSoftware.Cube
 		}
 
 		/// <summary>
-		/// Gets an ID, caching the object if necesssary, for the supplied object
+		/// Gets an ID, caching the object if necessary, for the supplied object
 		/// </summary>
 		/// <remarks>This method cannot be used in a multi-threaded environment without external synchronisation</remarks>
 		/// <param name="object">The object to get an ID for</param>
@@ -105,8 +105,9 @@ namespace BorsukSoftware.Cube
 			if( id == 0 )
 				return null;
 
-			if( id >= _nextValue )
-				throw new ArgumentOutOfRangeException( nameof( id ), string.Format( "A valid value between 0 and {0} (exclusive) must be specified", _nextValue ) );
+			if (id >= _nextValue)
+				throw new ArgumentOutOfRangeException(nameof(id),
+					$"A valid value between 0 and {_nextValue} (exclusive) must be specified");
 
 			uint highLevelKey = id / ( 1024 * 1024 );
 			uint midLevelKey = ( id / 1024 ) & 1023;
