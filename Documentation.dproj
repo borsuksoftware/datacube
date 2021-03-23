@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<documentationProject>
+	<settings includeInternalMembers="False" includeProtectedMembers="True" includePrivateMembers="False" outputFile="Documentation.xml" />
+	<documentationSources>
+		<documentationSource referencePath="Build\netstandard2.0" fileFilterRegExp="^(Cube.Core.dll)$" includeSubDirectories="False" allowFailure="False" />
+	</documentationSources>
+	<referenceDirectories />
+</documentationProject>

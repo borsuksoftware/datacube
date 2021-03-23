@@ -6,6 +6,11 @@
     <Company>Borsuk Software</Company>
     <Product>DataCube</Product>
     <Authors>Borsuk Software</Authors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>BorsukSoftware.Cube.Core</PackageId>
+    <Description>The cube is a data structure for representing data as an n-dimensional cube</Description>
+    <PackageTags>cube borsuksoftware</PackageTags>
+    <NeutralLanguage />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

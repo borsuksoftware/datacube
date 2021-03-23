@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/Cube.Core/bin
+/Cube.Core/obj
+/Cube.Core.Tests/bin
+/Cube.Core.Tests/obj

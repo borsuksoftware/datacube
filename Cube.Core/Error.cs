@@ -15,9 +15,9 @@ namespace BorsukSoftware.Cube
 	{
 		#region Member variables
 
-		private ValueMapper _valueMapper;
-		private string [] _axisNames;
-		private uint? [] _errorKeys;
+		private readonly ValueMapper _valueMapper;
+		private readonly string [] _axisNames;
+		private readonly uint? [] _errorKeys;
 
 		#endregion
 
@@ -40,7 +40,7 @@ namespace BorsukSoftware.Cube
 			this.ErrorMessage = errorMessage;
 
 			_errorKeys = new uint? [ errorKeys.Length ];
-			for( int i = 0 ; i < errorKeys.Length ; i++ )
+			for( int i = 0; i < errorKeys.Length; i++ )
 				_errorKeys [ i ] = errorKeys [ i ];
 		}
 
@@ -60,14 +60,14 @@ namespace BorsukSoftware.Cube
 
 		public object GetErrorKey( string axisName )
 		{
-			for( int i = 0 ; i < _axisNames.Length ; i++ )
+			for( int i = 0; i < _axisNames.Length; i++ )
 			{
 				if( _errorKeys [ i ].HasValue &&
 					_axisNames [ i ] == axisName )
 					return _valueMapper.GetObject( _errorKeys [ i ].Value );
 			}
 
-			throw new InvalidOperationException( string.Format( "No error key found for axis '{0}'", axisName ) );
+			throw new InvalidOperationException( $"No error key found for axis '{axisName}'" );
 		}
 
 		#endregion

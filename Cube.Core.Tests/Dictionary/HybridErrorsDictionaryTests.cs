@@ -67,12 +67,11 @@ namespace BorsukSoftware.Cube.Dictionary
 				var entry = enumerator.Current;
 
 				var keys = new Dictionary<string, uint>();
-				for( int i = 0 ; i < entry.Key.Length ; i++ )
+				for( int i = 0; i < entry.Key.Length; i++ )
 					if( entry.Key [ i ].HasValue )
 						keys [ axisNames [ i ] ] = entry.Key [ i ].Value;
 
-				string expectedErrorMessage;
-				Assert.IsTrue( allErrors.TryGetValue( keys, out expectedErrorMessage ) );
+				Assert.IsTrue( allErrors.TryGetValue( keys, out var expectedErrorMessage ) );
 				Assert.AreEqual( expectedErrorMessage, entry.Value );
 
 				allErrors.Remove( keys );
@@ -80,7 +79,7 @@ namespace BorsukSoftware.Cube.Dictionary
 
 			Assert.AreEqual( 0,
 				allErrors.Count,
-				string.Format( "Missing error messages - '{0}'", string.Join( "', '", allErrors.Select( pair => pair.Value ) ) ) );
+				$"Missing error messages - '{string.Join( "', '", allErrors.Select( pair => pair.Value ) )}'" );
 		}
 
 		[TestMethod]
@@ -138,9 +137,9 @@ namespace BorsukSoftware.Cube.Dictionary
 			foreach( var error in allErrors )
 			{
 				bool include = true;
-				foreach( var filterPair  in filter )
+				foreach( var filterPair in filter )
 				{
-					if( error.Key.ContainsKey( filterPair.Key) &&
+					if( error.Key.ContainsKey( filterPair.Key ) &&
 						error.Key [ filterPair.Key ] != filterPair.Value )
 					{
 						include = false;
@@ -157,7 +156,7 @@ namespace BorsukSoftware.Cube.Dictionary
 			{
 				var entry = enumerator.Current;
 				var keys = new Dictionary<string, uint>();
-				for( int i = 0 ; i < entry.Key.Length ; i++ )
+				for( int i = 0; i < entry.Key.Length; i++ )
 					if( entry.Key [ i ].HasValue )
 						keys [ axisNames [ i ] ] = entry.Key [ i ].Value;
 
@@ -170,7 +169,7 @@ namespace BorsukSoftware.Cube.Dictionary
 
 			Assert.AreEqual( 0,
 				filteredErrors.Count,
-				string.Format( "Missing error messages - '{0}'", string.Join( "', '", filteredErrors.Select( pair => pair.Value ) ) ) );
+				$"Missing error messages - '{string.Join( "', '", filteredErrors.Select( pair => pair.Value ) )}'" );
 		}
 
 		#endregion

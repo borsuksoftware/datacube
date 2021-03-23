@@ -14,9 +14,9 @@ namespace BorsukSoftware.Cube
 	{
 		#region Member variables
 
-		private IAxis [] _axes;
+		private readonly IAxis [] _axes;
 
-		private IDictionary<string, int> _axesByName = new Dictionary<string, int>();
+		private readonly IDictionary<string, int> _axesByName = new Dictionary<string, int>();
 
 		#endregion
 
@@ -34,12 +34,12 @@ namespace BorsukSoftware.Cube
 				throw new ArgumentNullException( nameof( axes ) );
 
 			_axes = new IAxis [ axes.Length ];
-			for( int i = 0 ; i < axes.Length ; i++ )
+			for( int i = 0; i < axes.Length; i++ )
 			{
 				_axes [ i ] = axes [ i ];
 
 				if( _axesByName.ContainsKey( axes [ i ].Name ) )
-					throw new InvalidOperationException( string.Format( "Duplicate axes with name '{0}' found", axes [ i ].Name ) );
+					throw new InvalidOperationException( $"Duplicate axes with name '{axes [ i ].Name}' found" );
 
 				_axesByName [ axes [ i ].Name ] = i;
 			}
@@ -55,11 +55,9 @@ namespace BorsukSoftware.Cube
 			{
 				if( axisIndex < 0 ||
 					axisIndex >= this.Count )
-					throw new ArgumentOutOfRangeException( 
-						nameof( axisIndex ), 
-						string.Format( 
-							"A valid integer between 0 and {0} must be specified", 
-							this.Count ) );
+					throw new ArgumentOutOfRangeException(
+						nameof( axisIndex ),
+						$"A valid integer between 0 and {this.Count} must be specified" );
 
 				return this._axes [ axisIndex ];
 			}
@@ -71,7 +69,7 @@ namespace BorsukSoftware.Cube
 			{
 				int idx = this.GetIndexOf( axisName );
 				if( idx == -1 )
-					throw new ArgumentException( string.Format( "No axis by name '{0}' found", axisName ) );
+					throw new ArgumentException( $"No axis by name '{axisName}' found" );
 
 				return this._axes [ idx ];
 			}
@@ -92,8 +90,7 @@ namespace BorsukSoftware.Cube
 
 		public int GetIndexOf( string axisName )
 		{
-			int idx;
-			if( this._axesByName.TryGetValue( axisName, out idx ) )
+			if( this._axesByName.TryGetValue( axisName, out var idx ) )
 				return idx;
 
 			return -1;

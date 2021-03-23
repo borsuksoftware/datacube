@@ -18,11 +18,11 @@ namespace BorsukSoftware.Cube
 	{
 		#region Member variables
 
-		private ValueMapper _valueMapper;
-		private KeyValuePair<uint [], TValueType> _kvp;
+		private readonly ValueMapper _valueMapper;
+		private readonly KeyValuePair<uint [], TValueType> _kvp;
 
 		#endregion
-		
+
 		#region Construction Logic
 
 		public CubePoint( ValueMapper valueMapper, KeyValuePair<uint [], TValueType> kvp )
@@ -49,7 +49,7 @@ namespace BorsukSoftware.Cube
 		public object GetAxisValue( int axisIdx )
 		{
 			if( axisIdx < 0 || axisIdx >= _kvp.Key.Length )
-				throw new ArgumentOutOfRangeException( nameof( axisIdx ), string.Format( "Invalid argument index specified, acceptable range is 0 - {0}", _kvp.Key.Length ) );
+				throw new ArgumentOutOfRangeException( nameof( axisIdx ), $"Invalid argument index specified, acceptable range is 0 - {_kvp.Key.Length}" );
 
 			return this._valueMapper.GetObject( _kvp.Key [ axisIdx ] );
 		}

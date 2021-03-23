@@ -21,11 +21,11 @@ namespace BorsukSoftware.Cube
 	{
 		#region Member variables
 
-		private ValueMapper _valueMapper = new ValueMapper();
+		private readonly ValueMapper _valueMapper = new ValueMapper();
 
-		private Dictionary.HybridDictionary<TValueType> _dictionary;
+		private readonly Dictionary.HybridDictionary<TValueType> _dictionary;
 
-		private ErrorSet _errorSet;
+		private readonly ErrorSet _errorSet;
 
 		#endregion
 
@@ -80,14 +80,13 @@ namespace BorsukSoftware.Cube
 			if( cubeValue == null )
 				throw new ArgumentNullException( nameof( cubeValue ) );
 
-			object [] keyArray = new object [ this.AxisSet.Count ];
-			for( int idx = 0 ; idx < keyArray.Length ; idx++ )
+			var keyArray = new object [ this.AxisSet.Count ];
+			for( int idx = 0; idx < keyArray.Length; idx++ )
 			{
 				string axisName = this.AxisSet [ idx ].Name;
 
-				object keyValue;
-				if( !keys.TryGetValue( axisName, out keyValue ) )
-					throw new InvalidOperationException( string.Format( "No key specified for mandatory axis '{0}' (#{1})", axisName, idx ) );
+				if( !keys.TryGetValue( axisName, out var keyValue ) )
+					throw new InvalidOperationException( $"No key specified for mandatory axis '{axisName}' (#{idx})" );
 
 				keyArray [ idx ] = keyValue;
 			}
@@ -113,30 +112,20 @@ namespace BorsukSoftware.Cube
 				throw new ArgumentNullException( nameof( cubeValue ) );
 
 			if( keys.Length != this.AxisSet.Count )
-				throw new InvalidOperationException(
-					string.Format(
-						"An invalid number of keys specified, expected {0}, got {1}",
-						this.AxisSet.Count,
-						keys.Length ) );
+				throw new InvalidOperationException( $"An invalid number of keys specified, expected {this.AxisSet.Count}, got {keys.Length}" );
 
-			uint [] keyArray = new uint [ this.AxisSet.Count ];
-			for( int idx = 0 ; idx < keyArray.Length ; idx++ )
+			var keyArray = new uint [ this.AxisSet.Count ];
+			for( int idx = 0; idx < keyArray.Length; idx++ )
 			{
 				if( keys [ idx ] == null )
 				{
 					if( this.AxisSet [ idx ].DataType.IsValueType )
-						throw new InvalidOperationException( string.Format(
-							"Null value supplied for axis #{0}, but null is invalid for data type '{1}'",
-							idx,
-							this.AxisSet [ idx ].DataType.FullName ) );
+						throw new InvalidOperationException( $"Null value supplied for axis #{idx}, but null is invalid for data type '{this.AxisSet [ idx ].DataType.FullName}'" );
 				}
 				else
 				{
 					if( !this.AxisSet [ idx ].DataType.IsInstanceOfType( keys [ idx ] ) )
-						throw new InvalidOperationException( string.Format( "The supplied value for axis #{0} is not of a valid type. Expected '{1}', received '{2}'",
-							idx,
-							keys [ idx ].GetType().FullName,
-							this.AxisSet [ idx ].DataType.FullName ) );
+						throw new InvalidOperationException( $"The supplied value for axis #{idx} is not of a valid type. Expected '{keys [ idx ].GetType().FullName}', received '{this.AxisSet [ idx ].DataType.FullName}'" );
 				}
 
 				keyArray [ idx ] = this._valueMapper.GetID( keys [ idx ] );
@@ -146,7 +135,14 @@ namespace BorsukSoftware.Cube
 			return retValue;
 		}
 
-		public void AddError( IDictionary<string,object> errorKeys, string errorMessage )
+		/// <summary>
+		/// Add the given error to the cube
+		/// </summary>
+		/// <remarks>This method is not threadsafe</remarks>
+		/// <param name="errorKeys">The set of error keys</param>
+		/// <param name="errorMessage">The error message</param>
+		/// <exception cref="ArgumentNullException">Thrown if <paramref name="errorKeys"/> is null</exception>
+		public void AddError( IDictionary<string, object> errorKeys, string errorMessage )
 		{
 			if( errorKeys == null )
 				throw new ArgumentNullException( nameof( errorKeys ) );
@@ -161,18 +157,12 @@ namespace BorsukSoftware.Cube
 				if( errorValue == null )
 				{
 					if( axis.DataType.IsValueType )
-						throw new InvalidOperationException( string.Format(
-							"Null value supplied for axis '{0}', but null is invalid for data type '{1}'",
-							axis.Name,
-							axis.DataType.FullName ) );
+						throw new InvalidOperationException( $"Null value supplied for axis '{axis.Name}', but null is invalid for data type '{axis.DataType.FullName}'" );
 				}
 				else
 				{
 					if( !axis.DataType.IsInstanceOfType( errorValue ) )
-						throw new InvalidOperationException( string.Format( "The supplied value for axis '{0}' is not of a valid type. Expected '{1}', received '{2}'",
-							axis.Name,
-							errorValue.GetType().FullName,
-							axis.DataType.FullName ) );
+						throw new InvalidOperationException( $"The supplied value for axis '{axis.Name}' is not of a valid type. Expected '{axis.DataType.FullName}', received '{errorValue.GetType().FullName}'" );
 				}
 			}
 
@@ -209,14 +199,13 @@ namespace BorsukSoftware.Cube
 			if( keys == null )
 				throw new ArgumentNullException( nameof( keys ) );
 
-			if (keys.Length != this.AxisSet.Count)
-				throw new ArgumentException($"Expected {this.AxisSet.Count} key(s), got given {keys.Length}");
+			if( keys.Length != this.AxisSet.Count )
+				throw new ArgumentException( $"Expected {this.AxisSet.Count} key(s), got given {keys.Length}" );
 
 			uint [] mappedKeys = new uint [ keys.Length ];
-			for( int idx = 0 ; idx < mappedKeys.Length ; idx++ )
+			for( int idx = 0; idx < mappedKeys.Length; idx++ )
 			{
-				uint mappedKey;
-				if( !_valueMapper.TryGetID( keys [ idx ], out mappedKey ) )
+				if( !_valueMapper.TryGetID( keys [ idx ], out var mappedKey ) )
 				{
 					cubeValue = default( TValueType );
 					return false;
