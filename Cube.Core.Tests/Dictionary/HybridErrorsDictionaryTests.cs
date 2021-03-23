@@ -164,7 +164,7 @@ namespace BorsukSoftware.Cube.Dictionary
 				Assert.IsTrue( filteredErrors.TryGetValue( keys, out expectedErrorMessage ) );
 				Assert.AreEqual( expectedErrorMessage, entry.Value );
 
-				filteredErrors.Remove( keys );
+				Assert.IsTrue(filteredErrors.Remove(keys));
 			}
 
 			Assert.AreEqual( 0,
