@@ -18,6 +18,9 @@ In this case, there are 2 choices:
 
 A use-case for this might be where one wished to store the underlying cashflows which contributed to a valuation as a collection within the cube value. In the **Add** method, one would simply combine the two cashflow collections together 
 
+### How thread safe is this?
+Writing to the structure needs to be extenally locked if being attempted in a multi-threaded fashion, however reading is guaranteed to be thread-safe (assuming nothing's writing at the time).
+
 ### How are errors handled / why are they handled in this way?
 A cube is made up of n dimensions, e.g. for the calculation of FX vega
 
